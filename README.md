@@ -6,7 +6,7 @@ IE Bootstrap Carousel is a fork of Twitter's Bootstrap Carousel, which can be fo
 How do I use it?
 ----------
 1. Include either the development or the minified version of ie-bootstrap-carousel.js in your project. 
-2. If, for some reason, you have another version of the bootstrap carousel js on your page you should remove.  Or at the very least make sure this one is declared last, so it will redefine the carousel methods.
+2. If, for some reason, you have another version of the bootstrap carousel on your page you should remove it.  Or, at the very least, make sure this one is declared last so that it can overwrite the other one.
 3. Use the bootstrap carousel the way that you normally would.
 
 Notes
