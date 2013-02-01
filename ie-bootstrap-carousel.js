@@ -2,7 +2,9 @@
  * ie-bootstrap-carousel.js v2.2.2
  * https://github.com/tybruffy/ie-bootstrap-carousel
  * ==========================================================
- * Forked from bootstrap-carousel.js v2.2.2
+ * Forked from bootstrap-transition.js v2.2.2
+ * http://twitter.github.com/bootstrap/javascript.html#transitions
+ *   and
  * http://twitter.github.com/bootstrap/javascript.html#carousel
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -21,6 +23,46 @@
  * ========================================================== */
 
 
+!function ($) {
+
+	"use strict"; // jshint ;_;
+
+
+	/* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
+	 * ======================================================= */
+
+	$(function () {
+
+		$.support.transition = (function () {
+
+			var transitionEnd = (function () {
+
+				var el = document.createElement('bootstrap')
+					, transEndEventNames = {
+							 'WebkitTransition' : 'webkitTransitionEnd'
+						,  'MozTransition'    : 'transitionend'
+						,  'OTransition'      : 'oTransitionEnd otransitionend'
+						,  'transition'       : 'transitionend'
+						}
+					, name
+
+				for (name in transEndEventNames){
+					if (el.style[name] !== undefined) {
+						return transEndEventNames[name]
+					}
+				}
+
+			}())
+
+			return transitionEnd && {
+				end: transitionEnd
+			}
+
+		})()
+
+	})
+
+}(window.jQuery);
 !function ($) {
 
 	"use strict"; // jshint ;_;
@@ -116,7 +158,7 @@
 				$next.addClass(type)
 				$next[0].offsetWidth // force reflow
 				$active.addClass(direction)
-				$next.addClass(direction)				
+				$next.addClass(direction)
 				this.$element.one($.support.transition.end, function () {
 					$next.removeClass([type, direction].join(' ')).addClass('active')
 					$active.removeClass(['active', direction].join(' '))
