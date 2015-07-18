@@ -151,7 +151,10 @@
 			})
 
 			if ($next.hasClass('active')) return
-
+			
+			//Active indicator dot
+	    		this.$element.find('.carousel-indicators li').removeClass('active').eq($next.index()).addClass('active');
+	    
 			if ($.support.transition && this.$element.hasClass('slide')) {
 				this.$element.trigger(e)
 				if (e.isDefaultPrevented()) return
@@ -264,12 +267,27 @@
  /* CAROUSEL DATA-API
 	* ================= */
 
-	$(document).on('click.carousel.data-api', '[data-slide]', function (e) {
-		var $this = $(this), href
-			, $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-			, options = $.extend({}, $target.data(), $this.data())
-		$target.carousel(options)
-		e.preventDefault()
-	})
+    var clickHandler = function (e) {
+        var href
+        var $this = $(this)
+        var $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) // strip for ie7
+        if (!$target.hasClass('carousel')) return
+        var options = $.extend({}, $target.data(), $this.data())
+        var slideIndex = $this.attr('data-slide-to')
+        if (slideIndex) options.interval = false
+
+        //Plugin.call($target, options)
+        $target.carousel(options)
+
+        if (slideIndex) {
+            $target.data('carousel').to(slideIndex)
+        }
+
+        e.preventDefault()
+    }
+
+    $(document)
+      .on('click.carousel.data-api', '[data-slide]', clickHandler)
+      .on('click.carousel.data-api', '[data-slide-to]', clickHandler)
 
 }(window.jQuery);
